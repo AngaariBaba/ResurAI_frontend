@@ -37,8 +37,8 @@ const Display = ({ answers, loading }) => {
 const Home = () => {
   const [answers, setAnswers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-
+  const [UploadStatus,SetUpload] = useState("Upload");  
+  const [CanSubmit,AllowSubmit] = useState(false);
 
 
   const uploadPDF = async () => {
@@ -75,11 +75,13 @@ const Home = () => {
       
       <WelcomeBox />
       <form id="pdfForm" encType="multipart/form-data" style={uploadFormStyle}>
-        <label htmlFor="pdfFile" className={buttonstyle.button}>Choose a PDF file:</label>
-        <input type="file" id="pdfFile" accept=".pdf" style={{display: 'none'}} />
-        <button type="button" onClick={uploadPDF} className={buttonstyle.button}>
+        <label htmlFor="pdfFile" className={buttonstyle.button}>{UploadStatus}</label>
+        <input type="file" onChange={(e)=>{SetUpload(e.target.value); AllowSubmit(true);}} id="pdfFile" accept=".pdf" style={{display: 'none'}} />
+       {CanSubmit?<button type="button" onClick={uploadPDF} className={buttonstyle.button}>
           Submit
-        </button>
+        </button>:<button disabled type="button" onClick={uploadPDF} className={buttonstyle.buttonD}>
+          Submit
+        </button>} 
       </form>
 
       <Display answers={answers} loading={isLoading} />
